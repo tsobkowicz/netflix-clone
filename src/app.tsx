@@ -7,7 +7,6 @@ import { useAuthListener } from './hooks';
 
 const App: React.FC = () => {
   const { user } = useAuthListener();
-  console.log(user);
 
   return (
     <Router>
