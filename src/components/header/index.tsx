@@ -41,7 +41,7 @@ interface HeaderComposition {
   Feature: React.FC;
   FeatureCallOut: React.FC;
   Text: React.FC;
-  TextLink: React.FC<{ active?: boolean, onClick?: () => Promise<void> }>;
+  TextLink: React.FC<{ active?: boolean, onClick?: () => Promise<void> | void }>;
   Group: React.FC;
   Picture: React.FC<{ src: string | undefined | null }>;
   Profile: React.FC;

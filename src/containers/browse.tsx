@@ -3,16 +3,20 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, useEffect } from 'react';
-import { SelectionMap, Profile } from '../types';
+import { SelectionMap, Profile, FilmObj, SeriesObj } from '../types';
 import SelectionProfileContainer from './profiles';
 import { FirebaseContext } from '../context/firebase';
-import { Header, Loading } from '../components';
+import { Card, Header, Loading } from '../components';
 import * as ROUTES from '../constants/routes';
 import logo from '../logo.svg';
 
 interface BrowseProp {
   slides: SelectionMap;
 }
+
+type SlideRowsArr = SeriesObj[] | FilmObj[];
+
+type CategorySatate = 'series' | 'films'
 
 const BrowseContainer: React.FC<BrowseProp> = ({ slides }) => {
   const [profile, setProfile] = useState<Profile>({
@@ -21,6 +25,8 @@ const BrowseContainer: React.FC<BrowseProp> = ({ slides }) => {
   });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [category, setCategory] = useState<CategorySatate>('series');
+  const [slideRows, setSlideRows] = useState<SlideRowsArr>([]);
 
   const { firebase } = useContext(FirebaseContext);
   const user = firebase.auth().currentUser;
@@ -30,6 +36,10 @@ const BrowseContainer: React.FC<BrowseProp> = ({ slides }) => {
       setLoading(false);
     }, 3000);
   }, [profile.displayName]);
+
+  useEffect(() => {
+    setSlideRows(slides[category])
+  }, [slides, category])
 
   return profile.displayName ? (
     <>
@@ -42,8 +52,8 @@ const BrowseContainer: React.FC<BrowseProp> = ({ slides }) => {
 
           <Header.Group>
             <Header.Logo to={ROUTES.HOME} alt="Netflix" src={logo} />
-            <Header.TextLink active={false}>Series</Header.TextLink>
-            <Header.TextLink active={false}>Films</Header.TextLink>
+            <Header.TextLink active={category === 'series'} onClick={() => setCategory('series')}>Series</Header.TextLink>
+            <Header.TextLink active={category === 'films'} onClick={() => setCategory('films')}>Films</Header.TextLink>
           </Header.Group>
 
           <Header.Group>
@@ -73,6 +83,28 @@ const BrowseContainer: React.FC<BrowseProp> = ({ slides }) => {
           <Header.PlayButton>Play</Header.PlayButton>
         </Header.Feature>
       </Header>
+
+      <Card.Group>
+        {slideRows.map((slideItem) => (
+          <Card key={`${category}-${slideItem.title.toLowerCase()}`}>
+            <Card.Title>{slideItem.title}</Card.Title>
+            <Card.Entities>
+              {slideItem.data.map((item) => (
+                <Card.Item key={item.docId} item={item}>
+                  <Card.Image src={`/images/${category}/${item.genre}/${item.slug}/small.jpg`} />
+                  <Card.Meta>
+                    <Card.SubTitle>{item.title}</Card.SubTitle>
+                    <Card.Text>{item.description}</Card.Text>
+                  </Card.Meta>
+                </Card.Item>
+              ))}
+            </Card.Entities>
+            <Card.Feature category={category}>
+              <p>Hello</p>
+            </Card.Feature>
+          </Card>
+        ))}
+      </Card.Group>
     </>
   ) : (
       <SelectionProfileContainer user={user} setProfile={setProfile} />

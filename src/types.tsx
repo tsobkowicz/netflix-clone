@@ -1,7 +1,7 @@
 export interface Film {
   description: string;
   genre: string;
-  maturity: string;
+  maturity: number;
   slug: string;
   title: string;
   id: string;
@@ -11,25 +11,25 @@ export interface Film {
 export interface Series {
   description: string;
   genre: string;
-  maturity: string;
+  maturity: number;
   slug: string;
   title: string;
   id: string;
   docId: string;
 }
 
-interface FilmObj {
+export interface FilmObj {
   title: string;
   data: Film[];
 }
 
-interface SerieObj {
+export interface SeriesObj {
   title: string;
   data: Series[];
 }
 
 export interface SelectionMap {
-  series: SerieObj[];
+  series: SeriesObj[];
   films: FilmObj[];
 }
 
