@@ -6,9 +6,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { SelectionMap, Profile, FilmObj, SeriesObj } from '../types';
 import SelectionProfileContainer from './profiles';
 import { FirebaseContext } from '../context/firebase';
-import { Card, Header, Loading } from '../components';
+import { Card, Header, Loading, Player } from '../components';
 import * as ROUTES from '../constants/routes';
 import logo from '../logo.svg';
+import { FooterContainer } from './footer';
 
 interface BrowseProp {
   slides: SelectionMap;
@@ -100,11 +101,15 @@ const BrowseContainer: React.FC<BrowseProp> = ({ slides }) => {
               ))}
             </Card.Entities>
             <Card.Feature category={category}>
-              <p>Hello</p>
+              <Player>
+                <Player.Button />
+                <Player.Video src="/videos/bunny.mp4" />
+              </Player>
             </Card.Feature>
           </Card>
         ))}
       </Card.Group>
+      <FooterContainer />
     </>
   ) : (
       <SelectionProfileContainer user={user} setProfile={setProfile} />
