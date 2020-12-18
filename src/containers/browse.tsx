@@ -3,6 +3,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, useEffect } from 'react';
+import Fuse from 'fuse.js';
 import { SelectionMap, Profile, FilmObj, SeriesObj } from '../types';
 import SelectionProfileContainer from './profiles';
 import { FirebaseContext } from '../context/firebase';
@@ -41,6 +42,18 @@ const BrowseContainer: React.FC<BrowseProp> = ({ slides }) => {
   useEffect(() => {
     setSlideRows(slides[category])
   }, [slides, category])
+
+  useEffect(() => {
+    const fuse = new Fuse(slideRows, { keys: ['data.description', 'data.title', 'data.genre'] });
+    const results = fuse.search(searchTerm).map(({ item }) => item);
+
+    if (slideRows.length > 0 && searchTerm.length > 3 && results.length > 0) {
+      setSlideRows(results);
+    } else {
+      setSlideRows(slides[category]);
+    }
+
+  }, [searchTerm])
 
   return profile.displayName ? (
     <>
