@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unescaped-entities */
 import React, { FormEvent, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -21,14 +20,18 @@ const Signin: React.FC = () => {
     e.preventDefault();
 
     // firebase auth
-    firebase.auth().signInWithEmailAndPassword(emailAddress, password).then(() => {
-      // push to the browse page
-      history.push(ROUTES.BROWSE);
-    }).catch((err) => {
-      setEmailAddress('');
-      setPassword('');
-      setError(err.message);
-    })
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(emailAddress, password)
+      .then(() => {
+        // push to the browse page
+        history.push(ROUTES.BROWSE);
+      })
+      .catch((err) => {
+        setEmailAddress('');
+        setPassword('');
+        setError(err.message);
+      });
   };
 
   return (
@@ -61,7 +64,8 @@ const Signin: React.FC = () => {
             New to Netflix? <Form.Link to="/signup">Sign up now.</Form.Link>
           </Form.Text>
           <Form.TextSmall>
-            This page is protected by Google reCAPTCHA to ensure you're not a bot. Learn more.
+            This page is protected by Google reCAPTCHA to ensure you're not a
+            bot. Learn more.
           </Form.TextSmall>
         </Form>
       </HeaderContainer>

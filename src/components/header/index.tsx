@@ -37,11 +37,14 @@ interface SearchProps {
 interface HeaderComposition {
   Frame: React.FC;
   ButtonLink: React.FC<{ to: string }>;
-  Logo: React.FC<{ to: string, alt: string, src: string }>;
+  Logo: React.FC<{ to: string; alt: string; src: string }>;
   Feature: React.FC;
   FeatureCallOut: React.FC;
   Text: React.FC;
-  TextLink: React.FC<{ active?: boolean, onClick?: () => Promise<void> | void }>;
+  TextLink: React.FC<{
+    active?: boolean;
+    onClick?: () => Promise<void> | void;
+  }>;
   Group: React.FC;
   Picture: React.FC<{ src: string | undefined | null }>;
   Profile: React.FC;
@@ -59,7 +62,9 @@ const Header: React.FC<HeaderProps> & HeaderComposition = ({
   ...restProps
 }) => {
   return bg ? (
-    <Background {...restProps}>{children}</Background>
+    <Background data-testid="header-bg" {...restProps}>
+      {children}
+    </Background>
   ) : (
       <>{children}</>
     );
@@ -103,7 +108,7 @@ Header.Profile = ({ children, ...restProps }) => {
 // Picture
 Header.Picture = ({ src, ...restProps }) => {
   return <Picture {...restProps} src={`/images/users/${src}.png`} />;
-}
+};
 
 // ButtonLink
 Header.ButtonLink = ({ children, ...restProps }) => {
@@ -130,23 +135,28 @@ Header.Logo = ({ to, ...restProps }) => {
 };
 
 // Search
-const HeaderSearch: React.FC<SearchProps> = ({ searchTerm, setSearchTerm, ...restProps }) => {
-  const [searchActive, setSearchActive] = useState<boolean>(false)
+const HeaderSearch: React.FC<SearchProps> = ({
+  searchTerm,
+  setSearchTerm,
+  ...restProps
+}) => {
+  const [searchActive, setSearchActive] = useState<boolean>(false);
 
   return (
     <Search {...restProps}>
       <SearchIcon onClick={() => setSearchActive((x) => !x)}>
-        <img src="/images/icons/search.png" alt="Search" />
+        <img src="/images/icons/search.png" alt="Search" data-testid="search-click" />
       </SearchIcon>
       <SearchInput
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Search films and series"
         active={searchActive}
+        data-testid="search-input"
       />
     </Search>
-  )
-}
+  );
+};
 Header.Search = HeaderSearch;
 
 // EXPORT HEADER COMPONENTS

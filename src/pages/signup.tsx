@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unescaped-entities */
 import React, { FormEvent, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -26,10 +25,11 @@ const Signup: React.FC = () => {
       .auth()
       .createUserWithEmailAndPassword(emailAddress, password)
       .then((result) =>
-        result.user?.updateProfile({
-          displayName: firstName,
-          photoURL: (Math.floor(Math.random() * 5) + 1).toString(),
-        })
+        result.user
+          ?.updateProfile({
+            displayName: firstName,
+            photoURL: (Math.floor(Math.random() * 5) + 1).toString(),
+          })
           .then(() => {
             history.push(ROUTES.BROWSE);
           })
@@ -76,7 +76,8 @@ const Signup: React.FC = () => {
             Already a user? <Form.Link to="/signin">Sign in now.</Form.Link>
           </Form.Text>
           <Form.TextSmall>
-            This page is protected by Google reCAPTCHA to ensure you're not a bot. Learn more.
+            This page is protected by Google reCAPTCHA to ensure you're not a
+            bot. Learn more.
           </Form.TextSmall>
         </Form>
       </HeaderContainer>

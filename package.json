@@ -64,18 +64,23 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.(ts|tsx)?$": "ts-jest"
     },
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.tsx",
+      "<rootDir>/src/**/*.ts",
       "!<rootDir>/src/app.tsx",
       "!<rootDir>/src/helpers/routes.tsx",
       "!<rootDir>/src/lib/firebase.ts",
       "!<rootDir>/src/lib/firebase.prod.ts",
       "!<rootDir>/src/index.tsx",
-      "!<rootDir>/src/seed.tsx",
-      "!<rootDir>/src/utils/index.tsx",
-      "!<rootDir>/src/pages/index.tsx",
+      "!<rootDir>/src/seed.ts",
+      "!<rootDir>/src/react-app-env.d.ts",
+      "!<rootDir>/src/utils/*.tsx",
+      "!<rootDir>/src/pages/*.tsx",
+      "!<rootDir>/src/containers/*.tsx",
+      "!<rootDir>/src/constants/*.ts",
+      "!<rootDir>/src/types.tsx",
       "!<rootDir>/src/global-styles.ts",
       "!<rootDir>/src/components/index.tsx",
       "!<rootDir>/src/firebase.prod.ts",
